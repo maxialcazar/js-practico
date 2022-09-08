@@ -5,10 +5,12 @@ const mobileMenu = document.querySelector(".mobile-menu");
 const cartIcon = document.querySelector(".navbar-shopping-cart");
 const cartMenu = document.querySelector(".product-detail-cart");
 const cardsContainer = document.querySelector(".cards-container");
+const img = querySelector(".detail-open");
 
 navEmail.addEventListener("click", toggleDesktopMenu);
 mobileMenuBtn.addEventListener("click", toggleMobileMenu);
 cartIcon.addEventListener("click", toggleShopCart);
+
 
 function toggleDesktopMenu() {
     if(cartMenu.classList.contains("inactive")){
@@ -62,6 +64,7 @@ function renderProducts(arr) {
     
         const img = document.createElement("img");
         img.setAttribute("src", product.image);
+        img.classList.add("detail-open");
     
         const productInfo = document.createElement("div");
         productInfo.classList.add("product-info");
