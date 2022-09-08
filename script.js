@@ -7,16 +7,19 @@ const cartMenu = document.querySelector(".product-detail-cart");
 const cardsContainer = document.querySelector(".cards-container");
 const productDetails = document.querySelector(".product-detail");
 const closeProductDetails = document.querySelector(".product-detail-close");
+const addToCart = document.querySelector(".add-to-cart-button");
+const cartContent = document.querySelector(".products");
 
 navEmail.addEventListener("click", toggleDesktopMenu);
 mobileMenuBtn.addEventListener("click", toggleMobileMenu);
 cartIcon.addEventListener("click", toggleShopCart);
 closeProductDetails.addEventListener("click", closeDetails);
+addToCart.addEventListener("click", renderCart);
 
 function toggleDesktopMenu() {
         desktopMenu.classList.toggle("inactive");
         cartMenu.classList.add("inactive");
-        mobileMenu.classList.add("inactive");        
+        mobileMenu.classList.add("inactive");          
         productDetails.classList.add("inactive");
 }
 
@@ -45,6 +48,7 @@ function closeDetails(){
     productDetails.classList.add("inactive");
 }
 
+let cartList = [];
 const productList = [];
 productList.push({
     name: "Bike",
@@ -80,7 +84,7 @@ function renderProducts(arr) {
         const price = document.createElement("p");
         price.innerText = "$" + product.price;
         const name = document.createElement("p");
-        name.innerText =product.name;
+        name.innerText = product.name;
     
         productInfoDiv.appendChild(name);
         productInfoDiv.appendChild(price);
@@ -88,6 +92,7 @@ function renderProducts(arr) {
         const productInfoFigure = document.createElement("figure");
         const productCartImg = document.createElement("img");
         productCartImg.setAttribute("src", "./icons/bt_add_to_cart.svg");
+        productCartImg.addEventListener("click", renderCart(product.name, product.price, product.image));
     
         productInfoFigure.appendChild(productCartImg);
     
@@ -102,3 +107,38 @@ function renderProducts(arr) {
 }
 
 renderProducts(productList);
+
+function renderCart(name, price, image){
+
+    cartList.push({
+        name: name,
+        price: price,
+        image: image,
+    })
+
+    let x = function addProduct() {
+            const cartProduct = document.createElement("div");
+            cartProduct.classList.add("shopping-cart");
+
+            const cartProductFigure = document.createElement("figure");
+            const cartProductImg = document.createElement("img");
+            cartProductImg.setAttribute("src", image)
+
+            const cartProductName = document.createElement("p");
+            cartProductName.innerText = name;
+            const cartProductPrice = document.createElement("p");
+            cartProductPrice.innerText = "$" + price;
+
+            const removeCartProduct = document.createElement("img");
+            removeCartProduct.setAttribute("src", "./icons/icon_close.png")
+
+            cartProductFigure.appendChild(cartProductImg);
+            cartProduct.appendChild(cartProductFigure);
+            cartProduct.appendChild(cartProductName);
+            cartProduct.appendChild(cartProductPrice);
+            cartProduct.appendChild(removeCartProduct);
+
+            cartContent.appendChild(cartProduct);
+    }
+    return x;   
+}
