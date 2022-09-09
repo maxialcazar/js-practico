@@ -9,12 +9,14 @@ const productDetails = document.querySelector(".product-detail");
 const closeProductDetails = document.querySelector(".product-detail-close");
 const addToCart = document.querySelector(".add-to-cart-button");
 const cartContent = document.querySelector(".products");
+const checkOut = document.querySelector(".primary-button");
 
 navEmail.addEventListener("click", toggleDesktopMenu);
 mobileMenuBtn.addEventListener("click", toggleMobileMenu);
 cartIcon.addEventListener("click", toggleShopCart);
 closeProductDetails.addEventListener("click", closeDetails);
 addToCart.addEventListener("click", renderCart);
+checkOut.addEventListener("click", resetCart);
 
 function toggleDesktopMenu() {
         desktopMenu.classList.toggle("inactive");
@@ -120,7 +122,9 @@ getLocalStorage()
 function getLocalStorage(){
     localCartList = localStorage.getItem("cartProducts");
 
-    cartList = JSON.parse(localCartList);
+    if (localCartList != null){
+        cartList = JSON.parse(localCartList);
+    }
 }
 
 function saveOnLocalStorage(){
@@ -169,13 +173,15 @@ function renderCart(){
         cartContent.appendChild(cartProduct);
     }
     cartList.forEach(addProduct);
-    return addProduct;
 }
 
 function removeProductCart(id){
-    console.log(id);
-    cartList.slice(id);
-    renderCart();
+    const isId = (element) => element.id = id;;
 
-    saveOnLocalStorage()
+    console.log(cartList.findIndex(isId));
+}
+
+function resetCart(){
+    console.log("Reset");
+    window.localStorage.removeItem("cartProducts");
 }
