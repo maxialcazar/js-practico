@@ -131,7 +131,7 @@ function saveOnLocalStorage(){
 
 function addProductArray(name, price, image){
     cartList.push({
-        id: Math.random(),
+        id: Math.random(15),
         name: name,
         price: price,
         image: image,
@@ -160,7 +160,7 @@ function renderCart(){
         removeCartProduct.setAttribute("src", "./icons/icon_close.png")
         removeCartProduct.addEventListener("click", function(){ removeProductCart(product.id)});
 
-        cartProductFigure.appendChild(cartProductImg);
+        cartProductFigure.appendChild(cartProductImg);  
         cartProduct.appendChild(cartProductFigure);
         cartProduct.appendChild(cartProductName);
         cartProduct.appendChild(cartProductPrice);
@@ -168,13 +168,13 @@ function renderCart(){
 
         cartContent.appendChild(cartProduct);
     }
-    cartList.forEach(addProduct)
-    return addProduct;      
+    cartList.forEach(addProduct);
+    return addProduct;
 }
 
 function removeProductCart(id){
-    let i = cartList.findIndex(id);
-    cartList.splice(i)
+    console.log(id);
+    cartList.slice(id);
     renderCart();
 
     saveOnLocalStorage()
