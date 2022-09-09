@@ -179,7 +179,9 @@ function removeProductCart(id){
     const isId = (element) => element.id == id;
 
     //console.log(cartList.findIndex(isId));
-    cartList.slice(isId);
+    cartList.splice(isId);
+    renderCart();
+    saveOnLocalStorage();
 }
 
 function resetCart(){
