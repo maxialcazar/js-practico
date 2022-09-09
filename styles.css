@@ -383,3 +383,7 @@
       width: 100%;
     }
   }
+
+.product-card:hover {
+  border-color: blue;
+}
