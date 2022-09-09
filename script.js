@@ -176,9 +176,10 @@ function renderCart(){
 }
 
 function removeProductCart(id){
-    const isId = (element) => element.id = id;;
+    const isId = (element) => element.id == id;
 
-    console.log(cartList.findIndex(isId));
+    //console.log(cartList.findIndex(isId));
+    cartList.slice(isId);
 }
 
 function resetCart(){
