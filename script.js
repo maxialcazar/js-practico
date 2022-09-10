@@ -65,7 +65,7 @@ productList.push({
 productList.push({
     name: "Auto",
     price: 12000000,
-    image: "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    image: "https://www.karvi.com.ar/blog/wp-content/uploads/2020/10/208II3-850x567.jpg",
 });
 productList.push({
     name: "Computadora",
@@ -73,8 +73,7 @@ productList.push({
     image: "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 }); 
 
-
-function renderProducts(arr) {
+function renderProducts() {
     for(let product of productList){
         const productCard = document.createElement("div");
         productCard.classList.add("product-card");
@@ -176,12 +175,18 @@ function renderCart(){
 }
 
 function removeProductCart(id){
-    const isId = (element) => element.id == id;
+    cartList.forEach(removeProduct)
 
-    //console.log(cartList.findIndex(isId));
-    cartList.splice(isId);
-    renderCart();
-    saveOnLocalStorage();
+    function removeProduct(value){
+        if(value.id == id)
+        {
+            let i = cartList.indexOf(value);
+            console.log(i);
+            cartList.splice(i, 1);
+            renderCart();
+            saveOnLocalStorage();
+        }
+    }
 }
 
 function resetCart(){
