@@ -6,16 +6,12 @@ const cartIcon = document.querySelector(".navbar-shopping-cart");
 const cartMenu = document.querySelector(".product-detail-cart");
 const cardsContainer = document.querySelector(".cards-container");
 const productDetails = document.querySelector(".product-detail");
-const closeProductDetails = document.querySelector(".product-detail-close");
-const addToCart = document.querySelector(".add-to-cart-button");
 const cartContent = document.querySelector(".products");
 const checkOut = document.querySelector(".primary-button");
 
 navEmail.addEventListener("click", toggleDesktopMenu);
 mobileMenuBtn.addEventListener("click", toggleMobileMenu);
 cartIcon.addEventListener("click", toggleShopCart);
-closeProductDetails.addEventListener("click", closeDetails);
-addToCart.addEventListener("click", renderCart);
 checkOut.addEventListener("click", resetCart);
 
 function toggleDesktopMenu() {
@@ -44,44 +40,36 @@ function toggleShopCart(){
         }
 }
 
-function openDetails(){
-        productDetails.classList.remove("inactive");
-        cartMenu.classList.add("inactive");
-        mobileMenu.classList.add("inactive"); 
-        desktopMenu.classList.add("inactive");
-}
-
-function closeDetails(){
-    productDetails.classList.add("inactive");
-}
-
 let cartList = [];
 const productList = [];
 productList.push({
     name: "Bike",
     price: 120,
     image: "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    descr: "Una bici es casi lo mismo que un auto porque tienen casi las mismas funciones de transportar a personas y que no se cansen. Pueden ser de distintos colores, y algunas personas le ponen luces para que los autos no los atropellen listo.",
 });
 productList.push({
     name: "Auto",
     price: 12000000,
     image: "https://www.karvi.com.ar/blog/wp-content/uploads/2020/10/208II3-850x567.jpg",
+    descr: "Es un elemento tecnologico que le salen luces por la parte trasera, ponee por el trasero. Yyy bueno emm por ahi pueden ser de diferentes colores, pero no venimos a eso, es un elemento tecnologico para transportar a las personas para satisfacer a las personas de su necesidad de no caminar y no cansarce.",
 });
 productList.push({
     name: "Computadora",
     price: 120000,
     image: "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    descr: "Un objeto tecnologico ehhh vas a poner tambien el e a okey emmmm dejame pensar puede o no tener luces sus elementos q lleva por ejemplo el teclado puede o no tener luces q salen de las teclas, otro ejemplo seria el mouse, que si, trae luces, pero hay otros q los compras y tiene luces de colores.",
 }); 
 
 function renderProducts() {
     for(let product of productList){
         const productCard = document.createElement("div");
         productCard.classList.add("product-card");
-    
+
         const img = document.createElement("img");
         img.setAttribute("src", product.image);
         img.classList.add("detail-open");
-        img.addEventListener("click", openDetails)
+        img.addEventListener("click", function(){ productDetailsOpen(product.name, product.price, product.image, product.descr)})
     
         const productInfo = document.createElement("div");
         productInfo.classList.add("product-info");
@@ -98,7 +86,7 @@ function renderProducts() {
         const productInfoFigure = document.createElement("figure");
         const productCartImg = document.createElement("img");
         productCartImg.setAttribute("src", "./icons/bt_add_to_cart.svg");
-        productCartImg.addEventListener("click", function(){ addProductArray(product.name, product.price, product.image)});
+        productInfoFigure.addEventListener("click", function(){ addProductArray(product.name, product.price, product.image)});
     
         productInfoFigure.appendChild(productCartImg);
     
@@ -192,4 +180,78 @@ function removeProductCart(id){
 function resetCart(){
     console.log("Reset");
     window.localStorage.removeItem("cartProducts");
+}
+
+/*
+    <div class="product-detail-close">
+      <img src="./icons/icon_close.png" alt="close" class="close-details">
+    </div>
+    <img src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="bike">
+    <div class="product-info-details">
+      <p>$35,00</p>
+      <p>Bike</p>
+      <p>With its practical position, this bike also fulfills a decorative function, add your hall or workspace.</p>
+      <button class="primary-button add-to-cart-button">
+        <img src="./icons/bt_add_to_cart.svg" alt="add to cart">
+        Add to cart
+      </button>
+    </div>
+*/
+
+let isDetailsOpen = false;
+
+function productDetailsOpen(name, price, image, descr){
+    if(isDetailsOpen == false){
+        const productDetailsCloseDiv = document.createElement("div");
+        productDetailsCloseDiv.classList.add("product-detail-close");
+        const productDetailsClose = document.createElement("img");
+        productDetailsClose.classList.add("close-details");
+        productDetailsCloseDiv.addEventListener("click", productDetailsCloseF)
+        productDetailsClose.setAttribute("src", "./icons/icon_close.png")
+        productDetailsClose.setAttribute("alt", "close");
+        productDetailsClose.classList.add("close-details");
+
+        const productImg = document.createElement("img");
+        productImg.setAttribute("src", image);
+        productImg.setAttribute("alt", name)
+
+        const productDetailsInfo = document.createElement("div");
+        productDetailsInfo.classList.add("product-info-details");
+
+        const productDetailsName = document.createElement("p");
+        const productDetailsPrice = document.createElement("p");
+        const productDetailsDescr = document.createElement("p");
+        productDetailsName.innerText = name;
+        productDetailsPrice.innerText = price;
+        productDetailsDescr.innerText = descr;
+
+        const productDetailsButton = document.createElement("button");
+        productDetailsButton.addEventListener("click", addProductArray(name, price, image));
+        productDetailsButton.classList.add("primary-button");
+        productDetailsButton.classList.add("add-to-cart-button");
+        productDetailsButton.innerText = "Add to cart";
+        const addToCartImg = document.createElement("img");
+        addToCartImg.setAttribute("alt", "Add to cart")
+        addToCartImg.setAttribute("src", "./icons/bt_add_to_cart.svg")
+
+        productDetailsCloseDiv.append(productDetailsClose);
+
+        productDetailsButton.appendChild(addToCartImg);
+
+        productDetailsInfo.appendChild(productDetailsName);
+        productDetailsInfo.appendChild(productDetailsPrice);
+        productDetailsInfo.appendChild(productDetailsDescr);
+        productDetailsInfo.appendChild(productDetailsButton);
+
+        productDetails.appendChild(productDetailsCloseDiv)
+        productDetails.appendChild(productImg);
+        productDetails.appendChild(productDetailsInfo );
+
+        isDetailsOpen = true;
+    }
+}
+
+function productDetailsCloseF(){
+    productDetails.innerHTML = "";
+    isDetailsOpen = false;
 }
